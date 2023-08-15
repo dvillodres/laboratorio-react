@@ -1,0 +1,10 @@
+span, a {
+    align-self: center;
+    text-align: center;
+}
+
+.avatar {
+    width: 80px;
+    border-radius: 50%;
+    border: 1px solid darkred;
+}
