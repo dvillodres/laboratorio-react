@@ -1,1 +1,1 @@
-export * from './useLocalStorage';
+export * from './context-provider.component';

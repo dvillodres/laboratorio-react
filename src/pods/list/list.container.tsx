@@ -2,23 +2,18 @@ import React from "react";
 import {MemberEntity} from "./list.vm";
 import {List} from "./list.component";
 import {getMemberCollection} from "./list.repository";
-import {useLocalStorage} from "../core";
+import { SearchContext } from "../core";
 
 export const ListContainer : React.FC = () => {
+    const context = React.useContext(SearchContext)
     const [
         members,
         setMembers
     ] = React.useState<MemberEntity[]>([]);
 
-
-    const [
-        organizationName,
-        setLocalStorageOrganizationName
-    ] = useLocalStorage('q', 'lemoncode')
-
-    const getMembers = (organizationName : string) => {
-        if (organizationName.length > 0) {
-            getMemberCollection(organizationName).then(
+    const getMembers = () => {
+        if (context.organizationName.length > 0) {
+            getMemberCollection(context.organizationName).then(
                 (memberCollection: MemberEntity[]) => setMembers(memberCollection)
             )
         } else {
@@ -27,16 +22,16 @@ export const ListContainer : React.FC = () => {
     };
 
     const setOrganizationName = (organizationName : string) => {
-        setLocalStorageOrganizationName('q', organizationName)
+        context.setOrganizationName(organizationName)
     };
 
     React.useEffect(() => {
-        getMembers(organizationName)
-    }, [organizationName]);
+        getMembers()
+    }, [context.organizationName]);
 
     return <List
         members={members}
-        organizationName={organizationName}
+        organizationName={context.organizationName}
         onSearch={setOrganizationName}
     />
 }
